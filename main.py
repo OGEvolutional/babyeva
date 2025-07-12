@@ -46,7 +46,7 @@ def main():
     messages = [
         types.Content(role="user", parts=[types.Part(text=user_prompt)]),
     ]
-    for _ in range(20):  # Max 20 iterations
+    for _ in range(20):  
         try:
             response = client.models.generate_content(
                 model="gemini-2.0-flash-001",
@@ -57,11 +57,11 @@ def main():
                 ),
             )
 
-            # ✅ Add all candidates (usually just 1)
+            
             for candidate in response.candidates:
                 messages.append(candidate.content)
 
-            # ✅ Handle function calls, if any:
+            
             if response.function_calls:
                 for function_call_part in response.function_calls:
                     function_call_result = call_function(function_call_part, verbose=verbose)
@@ -72,10 +72,10 @@ def main():
                     if verbose:
                         print(f"-> {function_call_result.parts[0].function_response.response}")
 
-                    # ✅ Add function response to conversation
+                    
                     messages.append(function_call_result)
 
-            # ✅ Check if LLM finished with a plain text reply:
+            
             if response.text:
                 print("Final response:")
                 print(response.text)
